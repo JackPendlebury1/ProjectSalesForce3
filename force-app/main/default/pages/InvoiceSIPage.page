@@ -1,0 +1,45 @@
+<apex:page standardController="Service_Invoice__c" extensions="InvoiceSI_CC" renderAs="pdf">
+
+    <div align="right">
+        <apex:sectionHeader title="Service Invoice" />
+    </div>
+    <div align="left">
+        <apex:sectionHeader subtitle="Force Training"/>
+    </div>
+        <apex:panelGrid columns="2" width="100%" cellspacing="20" cellpadding="4">
+                <apex:outputField value="{!Service_Invoice__c.Course__r.Bill_To__c}"/>
+                <apex:outputField value="{!Service_Invoice__c.Course__r.Mail_To__c}"/>
+        </apex:panelGrid>  
+    <br></br>
+    <br></br>
+    <br></br>
+    <br></br>
+    <br></br>
+    <br></br>
+    <apex:pageBlock>
+        <apex:pageblockTable var="sI" value="{!Service_Invoice__c}" border="4" cellspacing="3" cellpadding="4" rules="all" width="100%">
+            <apex:column value="{!sI.Course__r.Course_Title__c}" />
+            <apex:column value="{!sI.Course__r.Location__c}" />
+            <apex:column value="{!sI.id}" />
+        </apex:pageblockTable>
+        </apex:pageBlock>
+    <br></br>
+    <apex:pageBlock>
+        <apex:pageblockTable var="sII" value="{!results}" border="4" cellspacing="3" cellpadding="4" rules="all" width="100%">
+            <apex:column value="{!sII.Date__c}" />
+            <apex:column value="{!sII.Amount__c}" />
+            <apex:column value="{!sII.VAT__c}" />
+            <apex:column value="{!sII.Total_Amount__c}" />
+        </apex:pageblockTable>
+        </apex:pageBlock>
+        <br></br>
+        <apex:pageBlock>
+        <apex:pageblockTable var="sI" value="{!Service_Invoice__c}" border="4" cellspacing="3" cellpadding="4" rules="all" width="100%">
+            <apex:column value="{!sI.Sub_Total__c}" />
+            <apex:column value="{!sI.VAT__c}" />
+            <apex:column value="{!sI.Invoice_Total__c}" />
+        </apex:pageblockTable>
+        </apex:pageBlock>
+    <br></br>
+    </apex:page>
+
