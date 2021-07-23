@@ -25,6 +25,42 @@ public with sharing class CourseTriggerHandler {
         insert sIToBeAdded;
     }
 
-    
+    public static void createEvent(List<Course__c> triggerNew, Map<Id, Course__c> oldMap, Map<Id, Course__c> newMap) {
+        List<Event> eventToAdd = new List<Event>();
+        boolean checks = null;
+        Event first;
+        for (Course__c course :  triggerNew) {
+            if (course.Stage__c == SCHEDULED) {
+                List<Event> checkEvent = [SELECT id, WhatId, ActivityDate, StartDateTime, EndDateTime, Subject, OwnerId, IsAllDayEvent FROM Event WHERE WhatId = :course.Id];
+                if(checkEvent.size() > 0) {
+                    checks = true;
+                    first = checkEvent[0];
+                    first.ActivityDate = system.today();
+                    first.StartDateTime = course.Start_Date__c;
+                    first.EndDateTime = course.End_Date__c;
+                    first.Subject = 'Other';
+                    first.OwnerId = course.OwnerId__c;
+                    first.IsAllDayEvent = True;
+                    first.WhatId = course.Id;
+                } else {
+                    checks = false;
+                    Event e = new Event(
+                        ActivityDate = system.today(),
+                        StartDateTime = course.Start_Date__c,
+                        EndDateTime = course.End_Date__c,
+                        Subject = 'Other',
+                        OwnerId = course.OwnerId__c,
+                        IsAllDayEvent = True,
+                        WhatId = course.Id);
+                    eventToAdd.add(e);
+                    }  
+                }    
+            }
+        if(checks == true) {
+            update first;
+        } else {
+            insert eventToAdd;
+        }
+    }
     
 }
