@@ -62,5 +62,23 @@ public with sharing class CourseTriggerHandler {
             insert eventToAdd;
         }
     }
-    
+    public static void deleteEvent(List<Course__c> triggerNew,  Map<Id, Course__c> oldMap) {
+        for (Course__c course : triggerNew) {
+            if (oldMap.get(course.Id).Stage__c != CANCELLED && course.Stage__c == CANCELLED) {
+
+                List<User> getUser = [SELECT Email FROM user WHERE Id = :course.OwnerId__c];
+                Messaging.SingleEmailMessage message = new Messaging.SingleEmailMessage();
+                message.toAddresses = new String[] {getUser[0].Email};
+                message.subject = 'Your course has been Cancelled';
+                message.plainTextBody = 'The course: ' + course.Name + ' That would have started ' + course.Start_Date__c + ' and would have ended on the ' + course.End_Date__c + ' has been cancelled';
+                Messaging.SingleEmailMessage[] messages =   new List<Messaging.SingleEmailMessage> {message};
+                Messaging.SendEmailResult[] results = Messaging.sendEmail(messages);
+
+                List<Event> checkEvent = [SELECT id, WhatId, ActivityDate, StartDateTime, EndDateTime, Subject, OwnerId, IsAllDayEvent FROM Event WHERE WhatId = :course.Id];
+                if(checkEvent.size() > 0) {
+                    delete checkEvent[0];
+                }
+            }
+        }   
+    }
 }
