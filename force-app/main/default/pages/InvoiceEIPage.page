@@ -1,0 +1,47 @@
+<apex:page standardController="Expense_Invoice__c" extensions="InvoiceEI_CC" renderAs="pdf">
+
+    <div align="right">
+        <apex:sectionHeader title="Expense Invoice" />
+    </div>
+    <div align="left">
+        <apex:sectionHeader subtitle="Force Training"/>
+    </div>
+        <apex:panelGrid columns="2" width="100%" cellspacing="20" cellpadding="4">
+                <apex:outputField value="{!Expense_Invoice__c.Course__r.Bill_To__c}"/>
+                <apex:outputField value="{!Expense_Invoice__c.Course__r.Mail_To__c}"/>
+        </apex:panelGrid>  
+    <br></br>
+    <br></br>
+    <br></br>
+    <br></br>
+    <br></br>
+    <br></br>
+    <apex:pageBlock>
+        <apex:pageblockTable var="eI" value="{!Expense_Invoice__c}" border="4" cellspacing="3" cellpadding="4" rules="all" width="100%">
+            <apex:column value="{!eI.Course__r.Course_Title__c}" />
+            <apex:column value="{!eI.Course__r.Location__c}" />
+            <apex:column value="{!eI.id}" />
+        </apex:pageblockTable>
+        </apex:pageBlock>
+    <br></br>
+    <apex:pageBlock>
+        <apex:pageblockTable var="eII" value="{!results}" border="4" cellspacing="3" cellpadding="4" rules="all" width="100%">
+            <apex:column value="{!eII.Date__c}" />
+            <apex:column value="{!eII.RecordTypeId}" />
+            <apex:column value="{!eII.Description__c}" />
+            <apex:column value="{!eII.Amount__c}" />
+            <apex:column value="{!eII.VAT__c}" />
+            <apex:column value="{!eII.Total_Amount__c}" />
+        </apex:pageblockTable>
+        </apex:pageBlock>
+        <br></br>
+        <apex:pageBlock>
+        <apex:pageblockTable var="eI" value="{!Expense_Invoice__c}" border="4" cellspacing="3" cellpadding="4" rules="all" width="100%">
+            <apex:column value="{!eI.Sub_Total__c}" />
+            <apex:column value="{!eI.VAT__c}" />
+            <apex:column value="{!eI.Invoice_Total__c}" />
+        </apex:pageblockTable>
+        </apex:pageBlock>
+    <br></br>
+    </apex:page>
+
