@@ -7,7 +7,7 @@ public with sharing class CourseTriggerHandler {
 
     public static void checkStatus(List<Course__c> triggerNew, Map<Id, Course__c> oldMap, Map<Id, Course__c> newMap)  {
         List<Service_Invoice__c> sIToBeAdded = new List<Service_Invoice__c>();
-        List<Service_Invoice_Item__c> sIIToBeAdded = new List<Service_Invoice_Item__c>();
+        
         for (Course__c course :  triggerNew) {
             if (oldMap.get(course.Id).Stage__c != COMPLETED && course.Stage__c == COMPLETED ) {
                 Service_Invoice__c sI = new Service_Invoice__c(
@@ -17,23 +17,12 @@ public with sharing class CourseTriggerHandler {
                     Status__c = 'Draft'
                 );
                 sIToBeAdded.add(sI);
-                insert sIToBeAdded;
-                Integer numOfDays = course.Start_Date__c.daysBetween(course.End_Date__c);
-                for(Integer i = 0; numOfDays > i ; i++) {
-                    Service_Invoice_Item__c sII = new Service_Invoice_Item__c(
-                        Date__c = course.Start_Date__c + i,
-                        Category__c = course.Course_Code__c,
-                        Service_Invoice__c = sI.id,
-                        Description__c = course.Course_Title__c + 'day :' + i,
-                        Amount__c = course.Instructor_Rate__c
-                    );
-                    sIIToBeAdded.add(sII);
-                    
-                }
+                
+                
             }
         }
         
-        insert sIIToBeAdded;
+        insert sIToBeAdded;
     }
 
     public static void createEvent(List<Course__c> triggerNew, Map<Id, Course__c> oldMap, Map<Id, Course__c> newMap) {
