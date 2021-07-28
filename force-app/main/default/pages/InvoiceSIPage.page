@@ -1,4 +1,4 @@
-<apex:page standardController="Service_Invoice__c" extensions="InvoiceSI_CC" renderAs="pdf">
+<apex:page standardController="Service_Invoice__c" renderAs="pdf">
 
     <div align="right">
         <apex:sectionHeader title="Service Invoice" />
@@ -25,7 +25,7 @@
         </apex:pageBlock>
     <br></br>
     <apex:pageBlock>
-        <apex:pageblockTable var="sII" value="{!results}" border="4" cellspacing="3" cellpadding="4" rules="all" width="100%">
+        <apex:pageblockTable var="sII" value="{!Service_Invoice__c.Service_Invoice_Items__r}" border="4" cellspacing="3" cellpadding="4" rules="all" width="100%">
             <apex:column value="{!sII.Date__c}" />
             <apex:column value="{!sII.Amount__c}" />
             <apex:column value="{!sII.VAT__c}" />

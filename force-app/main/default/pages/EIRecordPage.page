@@ -1,0 +1,19 @@
+<apex:page standardController="Course__c" extensions="DisplayEIRecords_CX" lightningStylesheets="true">
+    <apex:outputText value="{!Course__c.Instructor__r.Instructor__r.id}" rendered="false"/>
+    <apex:pageMessages />
+    <apex:form >
+        <apex:pageBlock>
+            <apex:pageblockTable var="eI" value="{!invoiceList}" border="4" cellspacing="3" cellpadding="4" rules="all" width="100%">
+                <apex:column headerValue="Selected">
+                    <apex:inputCheckbox value="{!eI.checked}"/>
+                </apex:column>
+                <apex:column value="{!eI.eI.course__r.Location__c}" />
+                <apex:column value="{!eI.eI.course__r.Course_Title__c}" />
+                <apex:column value="{!eI.eI.Sub_Total__c}" />
+                <apex:column value="{!eI.eI.VAT__c}" />
+                <apex:column value="{!eI.eI.Invoice_Total__c}" />
+            </apex:pageblockTable>
+            <apex:commandButton action="{!CloneRecords}" value="Submit"/>
+        </apex:pageBlock>
+    </apex:form>
+</apex:page>
